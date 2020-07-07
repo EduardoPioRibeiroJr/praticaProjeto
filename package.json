@@ -1,0 +1,29 @@
+{
+  "name": "praticaprojeto",
+  "version": "1.0.0",
+  "description": "projeto front end",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EduardoPioRibeiroJr/praticaProjeto.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EduardoPioRibeiroJr/praticaProjeto/issues"
+  },
+  "homepage": "https://github.com/EduardoPioRibeiroJr/praticaProjeto#readme",
+  "dependencies": {
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "grunt": "^1.2.1",
+    "grunt-contrib-connect": "^2.1.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-copy-deps": "^1.4.0"
+  }
+}
