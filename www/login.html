@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+<body>
+
+    <div ng-app="nrpPdfControllers" ng-controller="nrpPdfController as vm">
+        <input type="text" ng-model="vm.usuario">
+        <input type="password" ng-model="vm.senha">
+        <input type="button" value="login" ng-click="vm.login()">
+        <input type="button" value="login2" ng-click="vm.login2()">
+        <script>
+            angular
+                .module("nrpPdfControllers", [])
+                .controller("nrpPdfController", function($http) {
+                    var vm = this;
+                    vm.login = funcaoAbacaxis;
+                    vm.login2 = funcaoAbacaxiGigante;
+
+                    function funcaoAbacaxis() {
+                        logar(vm.usuario, vm.senha)
+                            .then(function(responseAbacaxi) {
+                                window.alert("deu certo login!!!" + JSON.stringify(responseAbacaxi));
+                                return consultarSaldo(1, 1); // importante ter o return para o próximo then aguardar este consultarSaldo voltar assincronamente
+                            })
+                            .then(function(responseAbacaxi) {
+                                window.alert("deu certo saldo!!!" + JSON.stringify(responseAbacaxi));
+                            })
+                            .catch(function(erroAbacaxi) {
+                                if (erroAbacaxi && erroAbacaxi.data && angular.isArray(erroAbacaxi.data.messages)) {
+                                    window.alert("deu errado no saldo ou no login!!!    " + erroAbacaxi.data.messages[0]);
+                                } else {
+                                    window.alert("deu errado no saldo ou no login!!!    " + JSON.stringify(erroAbacaxi));
+                                }
+                            });
+
+                    }
+
+                    function funcaoAbacaxiGigante() {
+                        alert(vm.usuario);
+                        alert(vm.senha);
+                    }
+
+
+                    function logar(usuario, senha) {
+                        return $http({
+                            method: 'POST',
+                            url: 'http://localhost:8001/login',
+                            data: {
+                                usuario: usuario,
+                                senha: senha
+                            }
+                        });
+                    }
+
+                    function consultarSaldo(codigoAgencia, numeroConta) {
+                        return $http({
+                            method: 'GET',
+                            url: 'http://localhost:8001/conta/saldo',
+                            params: {
+                                codigoAgencia: codigoAgencia,
+                                numeroConta: numeroConta
+                            }
+                        });
+                    }
+
+                })
+                .controller("nrpPdfController3", function() {});
+
+
+            // sintaxe sem o [] é para reutilizar um módulo que já foi definido com []
+            angular
+                .module("nrpPdfControllers")
+                .controller("nrpPdfController2", function() {});
+        </script>
+
+</body>
+
+</html>

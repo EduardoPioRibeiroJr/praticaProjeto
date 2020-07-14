@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+<body>
+
+    <div ng-app="nrpPdfControllers" ng-controller="nrpPdfController as vm">
+        <input type="text" ng-model="vm.usuario">
+        <input type="password" ng-model="vm.senha">
+        <input type="button" value="login" ng-click="vm.login()">
+        <input type="button" value="login2" ng-click="vm.login2()">
+        <script>
+            angular
+                .module("nrpPdfControllers", [])
+                .controller("nrpPdfController", function($http) {
+                    var vm = this;
+                    vm.login = funcaoAbacaxis;
+                    vm.login2 = funcaoAbacaxiGigante;
+
+                    function funcaoAbacaxis() {
+
+                        // versão com problema de sincronia. login e saldo chamados ao mesmo tempo. pode ser que saldo seja chamado antes do login.
+
+                        $http({
+                                method: 'POST',
+                                url: 'http://localhost:8001/login',
+                                data: {
+                                    usuario: vm.usuario,
+                                    senha: vm.senha
+                                }
+                            })
+                            .then(function(responseAbacaxi) {
+                                window.alert("deu certo!!!" + JSON.stringify(responseAbacaxi));
+                            })
+                            .catch(function(erroAbacaxi) {
+                                window.alert("deu errado!!!    " + erroAbacaxi.data.messages[0]);
+                            });
+
+
+                        $http({
+                                method: 'GET',
+                                url: 'http://localhost:8001/conta/saldo',
+                                params: {
+                                    codigoAgencia: 1,
+                                    numeroConta: 1
+                                }
+                            }).then(function(responseGetSucesso) {
+                                window.alert("deu certo!!!" + JSON.stringify(responseGetSucesso));
+                            })
+                            .catch(function(responseGetErro) {
+                                window.alert("deu errado!!!    " + JSON.stringify(responseGetErro));
+                            });
+
+
+
+                    }
+
+                    function funcaoAbacaxiGigante() {
+                        alert(vm.usuario);
+                        alert(vm.senha);
+                    }
+
+                })
+                .controller("nrpPdfController3", function() {});
+
+
+            // sintaxe sem o [] é para reutilizar um módulo que já foi definido com []
+            angular
+                .module("nrpPdfControllers")
+                .controller("nrpPdfController2", function() {});
+        </script>
+
+</body>
+
+</html>
